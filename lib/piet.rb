@@ -19,7 +19,12 @@ module Piet
     private
 
     def optimize_for(path, opts)
-      case extension(path)
+      if(opts[:format])
+        selected_extension = opts[:format].to_s
+      else
+        selected_extension = extension(path)
+      end  
+      case selected_extension
         when "png", "gif" then optimize_png(path, opts)
         when "jpg", "jpeg" then optimize_jpg(path, opts)
       end
@@ -36,7 +41,9 @@ module Piet
 
     def optimize_jpg(path, opts)
       vo = opts[:verbose] ? "-v" : "-q"
-      `jpegoptim -f --strip-all #{vo} #{path}`
+      max = ""
+      max = ("--max=" + opts[:max]) if opts[:max]
+      `jpegoptim -f --strip-all #{vo} #{path} #{max}`
     end
 
     def pngquant_for(path, opts)
