@@ -40,6 +40,7 @@ module Piet
     end
 
     def optimize_jpg(path, opts)
+      puts 'Optimizing jpeg at #{path}'
       vo = opts[:verbose] ? "-v" : "-q"
       max = ""
       max = ("--max=" + opts[:max]) if opts[:max]
